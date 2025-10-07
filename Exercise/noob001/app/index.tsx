@@ -74,6 +74,6 @@ const css = StyleSheet.create({
         borderRadius: 50,
         width: 50,
         height: 50,
-        marginLeft: 200
+        marginLeft: 20
     }
 });
