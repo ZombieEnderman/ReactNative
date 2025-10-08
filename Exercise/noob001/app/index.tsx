@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet} from "react-native";
+import {Text, View, StyleSheet,Image} from "react-native";
 export default function ModalScreen() {
     return (
         <View style={css.dd}>
@@ -14,7 +14,9 @@ export default function ModalScreen() {
                 </View>
             </View>
             <View style={css.aa}>
-                <View style={css.aa}></View>
+                <View style={css.aa}>
+                    <Image style={css.sm} source={require('@/assets/images/icon.png')}/>
+                </View>
                 <View style={css.cc}>
                     <Text style={[css.size, css.red, css.weight, css.center, css.ball]}>F</Text>
                     <Text style={[css.size, css.red, css.weight, css.center, css.ball]}>U</Text>
@@ -75,5 +77,10 @@ const css = StyleSheet.create({
         width: 50,
         height: 50,
         marginLeft: 20
+    },
+    sm:{
+        marginLeft:20,
+        width:100,
+        height:100
     }
 });
