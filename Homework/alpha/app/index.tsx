@@ -62,7 +62,7 @@ const css = StyleSheet.create({
     btntxt: {
         color: "#ffffff",
         textAlign: "center",
-        fontSize: 30,
+        fontSize: 23,
         fontWeight: "700",
         margin: 10,
         borderRadius: 120,
