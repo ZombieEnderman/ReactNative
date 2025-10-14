@@ -6,7 +6,7 @@ export default function Index() {
             <View style={css.display}></View>
             <View style={css.func}>
                 <View style={css.row}>
-                    <Text style={[css.btntxt, css.col, css.colorC]}>AC</Text>
+                    <Text style={[css.btntxt, css.col, css.colorA]}>√</Text>
                     <Text style={[css.btntxt, css.col, css.colorA]}>±</Text>
                     <Text style={[css.btntxt, css.col, css.colorA]}>%</Text>
                     <Text style={[css.btntxt, css.col, css.colorA]}>÷</Text>
@@ -30,7 +30,7 @@ export default function Index() {
                     <Text style={[css.btntxt, css.col, css.colorA]}>+</Text>
                 </View>
                 <View style={css.row}>
-                    <Text style={[css.btntxt, css.col, css.colorA]}>√</Text>
+                    <Text style={[css.btntxt, css.col, css.colorC]}>AC</Text>
                     <Text style={[css.btntxt, css.col, css.colorB]}>0</Text>
                     <Text style={[css.btntxt, css.col, css.colorB]}>.</Text>
                     <Text style={[css.btntxt, css.col, css.colorC]}>=</Text>
@@ -43,7 +43,7 @@ export default function Index() {
 const css = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: "#000000",
+        backgroundColor: "#ffffffff",
     },
     func: {
         flex: 2,
@@ -69,12 +69,12 @@ const css = StyleSheet.create({
         height: 60,
     },
     colorA: {
-        backgroundColor: "#01b3ffff",
+        backgroundColor: "#ffa869ff",
     },
     colorB: {
-        backgroundColor: "#a6a6a6ff",
+        backgroundColor: "#d599f7ff",
     },
     colorC: {
-        backgroundColor: "#df6f1eff",
+        backgroundColor: "#98d9f5ff",
     },
 });
