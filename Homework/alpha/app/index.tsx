@@ -66,7 +66,7 @@ const css = StyleSheet.create({
         fontWeight: "700",
         margin: 10,
         borderRadius: 120,
-        height: 60,
+        height: 64,
     },
     colorA: {
         backgroundColor: "#ffa869ff",
