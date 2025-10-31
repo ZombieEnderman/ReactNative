@@ -10,22 +10,26 @@ export default function Index() {
     <View style={css.root}>
       {/* 數值顯示區 */}
       <View style={[css.some, css.btn, css.display]}>
-        <Text style={[css.bigword, css.cmdtext, css.bold, css.interval]}>
-          {thousands}
+        <Text style={[css.bigword, css.cmdtext, css.bold, css.txtinterval]}>
+          {/* {thousands}
           {hundreds}
-          {tens}
+          {tens} */}
           {single}
         </Text>
       </View>
       {/* 按鈕區 */}
-      <View style={css.medium}>
-        <TouchableOpacity style={[css.btn, css.colorA]}>
-          <Text style={css.mdword}>???</Text>
-        </TouchableOpacity>
-      </View>
-      {/* 清單區 */}
-      <View style={css.most}>
-        <Text style={[css.small, css.bold]}>歷史紀錄</Text>
+      <View style={[css.most]}>
+        <View style={[css.row, css.interval]}>
+          <TouchableOpacity style={[css.btn, css.colorA]} onPress={() => setsingle(single + 1)} >
+            <Text style={css.mdword}>+1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[css.btn, css.colorC]} onPress={() => setsingle(0)} >
+            <Text style={css.mdword}>歸零</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[css.btn, css.colorB]} onPress={() => setsingle(single - 1)}>
+            <Text style={css.mdword}>-1</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -38,25 +42,23 @@ const css = StyleSheet.create({
   },
   display: {
     backgroundColor: "#000000",
-    marginTop: 40,
+    marginTop: 30,
+    marginBottom: 20,
   },
   some: {
     flex: 1,
   },
-  medium: {
-    flex: 2,
-  },
   most: {
     flex: 4,
+  },
+  row: {
+    flexDirection: "row",
   },
   bigword: {
     fontSize: 50,
   },
   mdword: {
     fontSize: 40,
-  },
-  small: {
-    fontSize: 20,
   },
   cmdtext: {
     color: "#00ff00",
@@ -65,14 +67,26 @@ const css = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
+    padding: 10,
+    minWidth: 65,
   },
   bold: {
     fontWeight: "600",
   },
-  interval: {
+  txtinterval: {
     letterSpacing: 15,
   },
+  interval: {
+    justifyContent: "center",
+    gap: 12,
+  },
   colorA: {
-    backgroundColor: "#dd0",
+    backgroundColor: "#3399ddff",
+  },
+  colorB: {
+    backgroundColor: "#4477ffff",
+  },
+  colorC: {
+    backgroundColor: "#5e8769",
   },
 });
