@@ -54,14 +54,14 @@ const css = StyleSheet.create({
         fontSize: 40,
     },
     cmdtext: {
-        color: "#00ff00",
+        color: "#ffffffff",
     },
     btn: {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
         padding: 10,
-        minWidth: 65,
+        minWidth: 100,
     },
     bold: {
         fontWeight: "600",
@@ -80,6 +80,6 @@ const css = StyleSheet.create({
         backgroundColor: "#4477ffff",
     },
     colorC: {
-        backgroundColor: "#5e8769",
+        backgroundColor: "#76d1d6",
     },
 });
