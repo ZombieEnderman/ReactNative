@@ -37,6 +37,7 @@ const css = StyleSheet.create({
         backgroundColor: "#000000",
         marginTop: 30,
         marginBottom: 20,
+        maxHeight:120
     },
     some: {
         flex: 1,
