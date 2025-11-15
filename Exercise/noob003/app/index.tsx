@@ -1,33 +1,39 @@
 import { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from "react-native";
+import { AntDesign, FontAwesome6, FontAwesome5 } from '@expo/vector-icons';
 
 export default function Index() {
-  const [count, setCount] = useState(0);
   const [list, setList] = useState<number[]>([]);
   const addItem = () => {
-    setList([...list, count]);
+    setList([...list, Date.now()]);
   };
   const clearItem = () => {
     setList([]);
   };
+  const removeItem = (index: number) => {
+    setList(list.filter((item, i) => i !== index));
+  };
   const render = ({ item, index }) => {
     return (
-      <View style={styles.litxt}>
-        <Text style={styles.word}>{item}</Text>
-      </View>
+      <TouchableOpacity style={styles.litxt} onPress={() => removeItem(index)}>
+        <View style={{ flexDirection: "row", flex: 1, alignItems: "center", }}>
+          <Text style={[styles.word, { flex: 1 }]}>{item}</Text>
+          <AntDesign name="minus" size={24} color="black" />
+        </View>
+      </TouchableOpacity>
     );
   };
   return (
     <View style={styles.root}>
       <View style={styles.title}>
-        <Text style={styles.bigword}>待辦事項</Text>
+        <Text style={styles.bigword}>時間戳</Text>
       </View>
       <View style={styles.buttons}>
         <TouchableOpacity style={[styles.btn, styles.colorB]} onPress={addItem}>
-          <Text style={styles.word}>+</Text>
+          <FontAwesome6 name="add" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.btn, styles.colorA]} onPress={clearItem}>
-          <Text style={styles.word}>clear</Text>
+          <FontAwesome5 name="trash" size={24} color="black" />
         </TouchableOpacity>
       </View>
       <View style={styles.list}>
@@ -62,9 +68,11 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   btn: {
-    minWidth: 100,
+    minWidth: 140,
     alignItems: "center",
+    justifyContent: "center",
     borderRadius: 10,
+    minHeight: 50,
   },
   word: {
     fontSize: 20,
@@ -78,6 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 5,
     backgroundColor: "#ee0",
+    paddingHorizontal: 10,
   },
   colorA: {
     backgroundColor: "#f30",
