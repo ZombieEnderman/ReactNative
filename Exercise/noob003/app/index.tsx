@@ -6,7 +6,7 @@ export default function Index() {
   const [list, setList] = useState<string[]>([]);
   const addItem = () => {
     let time = new Date();
-    setList([...list, time.toLocaleString("zh-TW")]);
+    setList([...list, time.toLocaleString("zh-TW", { "hour12": false })]);
   };
   const clearItem = () => {
     setList([]);
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     minHeight: 50,
   },
   word: {
-    fontSize: 15,
+    fontSize: 17,
   },
   list: {
     flex: 7,
