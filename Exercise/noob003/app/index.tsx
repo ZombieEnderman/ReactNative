@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, TouchableOpacity, FlatList } from "react-native
 import { AntDesign, FontAwesome6, FontAwesome5 } from '@expo/vector-icons';
 
 export default function Index() {
-  const [list, setList] = useState<number[]>([]);
+  const [list, setList] = useState<string[]>([]);
   const addItem = () => {
-    setList([...list, Date.now()]);
+    let time = new Date();
+    setList([...list, time.toLocaleString("zh-TW")]);
   };
   const clearItem = () => {
     setList([]);
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     minHeight: 50,
   },
   word: {
-    fontSize: 20,
+    fontSize: 15,
   },
   list: {
     flex: 7,
