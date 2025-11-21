@@ -16,6 +16,14 @@ export default function Index() {
           <Text style={styles.inputText}>體重:</Text>
           <TextInput placeholder="請輸入體重(公斤)" />
         </View>
+        <View style={styles.btns}>
+          <TouchableOpacity style={styles.button}>
+            <Text>清除</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text>計算</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.display}>
         <Text>???</Text>
@@ -33,10 +41,12 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   func: {
-    flex: 2,
+    flex: 1,
   },
   display: {
-    flex: 1,
+    flex: 2,
+    alignItems: "center",
+    marginTop: 20,
   },
   title: {
     fontSize: 30,
@@ -64,5 +74,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     marginRight: 12
+  },
+  btns: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 10,
+  },
+  button: {
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#00aa00",
+    minWidth: 80,
   },
 });
