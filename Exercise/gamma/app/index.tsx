@@ -2,6 +2,24 @@ import { useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, TextInput } from "react-native";
 
 export default function Index() {
+  const [height, setHeight] = useState("0");
+  const [weight, setWeight] = useState("0");
+  const [bmi, setBMI] = useState("0");
+  const clear = () => {
+    setHeight("");
+    setWeight("");
+    setBMI("");
+  };
+  const calculate = () => {
+    let h = Number(height);
+    let w = Number(weight);
+    let b = w / (h ** 2);
+    if (isNaN(b)) {
+      setBMI("請輸入有效數值!");
+    } else {
+      setBMI(b.toFixed(2).toString());
+    }
+  };
   return (
     <View style={{ flex: 1, justifyContent: "center" }}>
       <View style={styles.main}>
@@ -10,23 +28,23 @@ export default function Index() {
       <View style={styles.func}>
         <View style={styles.height}>
           <Text style={styles.inputText}>身高:</Text>
-          <TextInput placeholder="請輸入身高(公尺)" />
+          <TextInput placeholder="請輸入身高(公尺)" value={height} onChangeText={setHeight} style={styles.input} />
         </View>
         <View style={styles.weight}>
           <Text style={styles.inputText}>體重:</Text>
-          <TextInput placeholder="請輸入體重(公斤)" />
+          <TextInput placeholder="請輸入體重(公斤)" value={weight} onChangeText={setWeight} style={styles.input} />
         </View>
         <View style={styles.btns}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={clear}>
             <Text>清除</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={calculate}>
             <Text>計算</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.display}>
-        <Text>???</Text>
+        <Text>{bmi}</Text>
       </View>
     </View>
   );
@@ -73,7 +91,11 @@ const styles = StyleSheet.create({
   inputText: {
     fontSize: 20,
     fontWeight: "500",
+    height: 40,
     marginRight: 12
+  },
+  input: {
+    height: 52,
   },
   btns: {
     flex: 1,
