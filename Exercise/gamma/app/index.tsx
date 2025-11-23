@@ -10,7 +10,7 @@ export default function Index() {
     setHeight("");
     setWeight("");
     setBMI("");
-  };
+  }
   const calculate = () => {
     let h = Number(height);
     let w = Number(weight);
@@ -20,7 +20,7 @@ export default function Index() {
     } else {
       setBMI(b.toFixed(2).toString());
     }
-  };
+  }
   return (
     <View style={{ flex: 1, justifyContent: "center" }}>
       <TouchableOpacity style={[basic.main, !isDark ? (light.yellow) : (dark.darkGray)]} onPress={() => setIsDark(!isDark)}>
