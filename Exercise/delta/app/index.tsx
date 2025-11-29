@@ -9,7 +9,7 @@ export default function Index() {
     setWord(newword);
     const title = newword ? ("燈亮了") : ("燈滅了");
     const message = newword ? ("誰說你可以按的!") : ("就叫你別按了!");
-    Alert.alert(title, message, [{ text: "好喔" }, { text: "不要阿" }]);
+    Alert.alert(title, message, [{ text: "好喔", style: "cancel" }, { text: "不要阿", style: "destructive", onPress: change }]);
   }
   return (
     <View style={[styles.center, styles.some]}>
