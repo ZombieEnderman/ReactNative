@@ -4,8 +4,27 @@ import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 
 export default function Index() {
   const [word, setWord] = useState("");
-  const [list, setList] = useState([]);
-  const addItem = () => {};
+  const [list, setList] = useState<string[]>([]);
+  const addItem = () => {
+    setList([word, ...list]);
+  };
+  const removeItem = (idex: number) => {
+    setList(list.filter((item, i) => i != idex));
+  }
+  const tag = ({ item, index }: { item: string, index: number }) => (
+    <View style={basic.itemBlock}>
+      <Text>{item}</Text>
+      <TouchableOpacity>
+        <Entypo name="edit" size={30} color="black" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => removeItem(index)}>
+        <Entypo name="circle-with-cross" size={30} color="black" />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Ionicons name="information-circle" size={30} color="black" />
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <View style={[basic.few]}>   {/* 根標籤 */}
@@ -17,27 +36,19 @@ export default function Index() {
 
       {/* 功能區 */}
       <View style={[basic.func]}>
-
-        {/* 輸入列 */}
-        <View style={basic.inputRow}>
-          <TextInput
-            style={basic.input}
-            placeholder="輸入代辦事項"
-            value={word}
-            onChangeText={setWord}
-          />
-
-          <TouchableOpacity style={basic.addBtn} onPress={addItem}>
-            <Entypo name="add-to-list" size={30} color="black" />  {/* 添加icon */}
-          </TouchableOpacity>
-        </View>
-
-        {/* 項目過濾按鈕 */}
+        <TextInput
+          style={basic.input}
+          placeholder="輸入代辦事項"
+          value={word}
+          onChangeText={setWord}
+        />
         <View style={basic.filterRow}>
+          <TouchableOpacity style={basic.addBtn} onPress={addItem}>
+            <Entypo name="add-to-list" size={30} color="black" />
+          </TouchableOpacity>
           <TouchableOpacity style={basic.filterBtn}>
             <Text style={basic.filterText}>已完成</Text>
           </TouchableOpacity>
-
           <TouchableOpacity style={basic.filterBtn}>
             <Text style={basic.filterText}>未完成</Text>
           </TouchableOpacity>
@@ -46,19 +57,7 @@ export default function Index() {
 
       {/* 項目區 */}
       <View style={[basic.most]}>
-        <View style={basic.itemBlock}>
-          <TouchableOpacity>
-            <Entypo name="edit" size={30} color="black" />
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Entypo name="circle-with-cross" size={30} color="black" />
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Ionicons name="information-circle" size={30} color="black" />
-          </TouchableOpacity>
-        </View>
+        <FlatList style={{}} data={list} keyExtractor={(item, index) => `${item} ${index}`} renderItem={tag} />
       </View>
     </View>
   );
@@ -72,7 +71,7 @@ const basic = StyleSheet.create({
   func: {
     flex: 2,
     paddingHorizontal: 10,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   most: {
     flex: 5,
@@ -85,12 +84,10 @@ const basic = StyleSheet.create({
     textAlign: "center",
     marginTop: 20
   },
-  inputRow: {
+  input: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10
-  },
-  input: {
+    marginBottom: 10,
     flex: 1,
     borderWidth: 1,
     borderColor: "#ccc",
@@ -107,7 +104,8 @@ const basic = StyleSheet.create({
   filterRow: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 10
+    marginTop: 10,
+    marginBottom: 10
   },
   filterBtn: {
     paddingVertical: 10,
@@ -122,7 +120,7 @@ const basic = StyleSheet.create({
   itemBlock: {
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "80%",
+    width: "95%",
     padding: 20,
     backgroundColor: "#eee",
     borderRadius: 15
