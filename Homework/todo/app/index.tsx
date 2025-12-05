@@ -1,19 +1,22 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput } from "react-native";
-import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 
 export default function Index() {
   const [word, setWord] = useState("");
   const [list, setList] = useState<string[]>([]);
+  const clearItem = () => {
+    setList([]);
+  }
   const addItem = () => {
-    setList([word, ...list]);
+    setList([...list, word]);
   };
   const removeItem = (idex: number) => {
     setList(list.filter((item, i) => i != idex));
   }
   const tag = ({ item, index }: { item: string, index: number }) => (
-    <View style={basic.itemBlock}>
-      <Text>{item}</Text>
+    <View style={[basic.itemBlock, basic.few]}>
+      <Text style={basic.most}>{item}</Text>
       <TouchableOpacity>
         <Entypo name="edit" size={30} color="black" />
       </TouchableOpacity>
@@ -42,7 +45,10 @@ export default function Index() {
           value={word}
           onChangeText={setWord}
         />
-        <View style={basic.filterRow}>
+        <View style={basic.pressButtons}>
+          <TouchableOpacity style={basic.clearBtn} onPress={clearItem}>
+            <Ionicons name="trash" size={30} color="black" />
+          </TouchableOpacity>
           <TouchableOpacity style={basic.addBtn} onPress={addItem}>
             <Entypo name="add-to-list" size={30} color="black" />
           </TouchableOpacity>
@@ -95,17 +101,25 @@ const basic = StyleSheet.create({
     padding: 10,
     backgroundColor: "white",
   },
-  addBtn: {
+  pressButtons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: 'center',
+    gap: 5,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  clearBtn: {
     marginLeft: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "#dededeff",
     padding: 10,
     borderRadius: 12,
   },
-  filterRow: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 10,
-    marginBottom: 10
+  addBtn: {
+    marginLeft: 10,
+    backgroundColor: "#dededeff",
+    padding: 10,
+    borderRadius: 12,
   },
   filterBtn: {
     paddingVertical: 10,
@@ -113,18 +127,19 @@ const basic = StyleSheet.create({
     backgroundColor: "#333",
     borderRadius: 10
   },
+  itemBlock: {
+    flexDirection: "row",
+    alignItems: "center",
+    minWidth: "95%",
+    padding: 12,
+    backgroundColor: "#dad9d9ff",
+    borderRadius: 15,
+    marginVertical: 3
+  },
   filterText: {
     color: "white",
     fontSize: 16
   },
-  itemBlock: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "95%",
-    padding: 20,
-    backgroundColor: "#eee",
-    borderRadius: 15
-  }
 });
 
 //深色樣式
