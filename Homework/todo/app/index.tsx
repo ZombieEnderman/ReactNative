@@ -5,17 +5,18 @@ import { Ionicons, Entypo } from '@expo/vector-icons';
 export default function Index() {
   const [word, setWord] = useState("");
   const [list, setList] = useState<string[]>([]);
-  const clearItem = () => {
+  const clearList = () => {
     setList([]);
   }
   const addItem = () => {
     setList([...list, word]);
+    setWord("");
   };
   const removeItem = (idex: number) => {
     setList(list.filter((item, i) => i != idex));
   }
   const tag = ({ item, index }: { item: string, index: number }) => (
-    <View style={[basic.itemBlock, basic.few]}>
+    <View style={[basic.item, basic.few, dark.itemBlock]}>
       <Text style={basic.most}>{item}</Text>
       <TouchableOpacity>
         <Entypo name="edit" size={30} color="black" />
@@ -40,22 +41,25 @@ export default function Index() {
       {/* 功能區 */}
       <View style={[basic.func]}>
         <TextInput
-          style={basic.input}
+          style={[basic.input, dark.inputBlock]}
           placeholder="輸入代辦事項"
           value={word}
           onChangeText={setWord}
         />
-        <View style={basic.pressButtons}>
-          <TouchableOpacity style={basic.clearBtn} onPress={clearItem}>
+        <View style={[basic.buttonGroup, basic.few]}>
+          <TouchableOpacity style={[basic.button, basic.few, dark.buttonBlock]}>
+            <Ionicons name="sunny" size={30} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity style={[basic.button, basic.few, dark.buttonBlock]} onPress={clearList}>
             <Ionicons name="trash" size={30} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={basic.addBtn} onPress={addItem}>
+          <TouchableOpacity style={[basic.button, basic.few, dark.buttonBlock]} onPress={addItem}>
             <Entypo name="add-to-list" size={30} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={basic.filterBtn}>
+          <TouchableOpacity style={[basic.button, basic.few, dark.buttonBlock]}>
             <Text style={basic.filterText}>已完成</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={basic.filterBtn}>
+          <TouchableOpacity style={[basic.button, basic.few, dark.buttonBlock]}>
             <Text style={basic.filterText}>未完成</Text>
           </TouchableOpacity>
         </View>
@@ -63,7 +67,7 @@ export default function Index() {
 
       {/* 項目區 */}
       <View style={[basic.most]}>
-        <FlatList style={{}} data={list} keyExtractor={(item, index) => `${item} ${index}`} renderItem={tag} />
+        <FlatList data={list} keyExtractor={(item, index) => `${item} ${index}`} renderItem={tag} />
       </View>
     </View>
   );
@@ -96,54 +100,48 @@ const basic = StyleSheet.create({
     marginBottom: 10,
     flex: 1,
     borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 10,
-    padding: 10,
-    backgroundColor: "white",
+    paddingHorizontal: 10,
   },
-  pressButtons: {
+  buttonGroup: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: 'center',
     gap: 5,
-    marginTop: 10,
-    marginBottom: 10
   },
-  clearBtn: {
-    marginLeft: 10,
-    backgroundColor: "#dededeff",
+  button: {
+    flexDirection: "row",
+    justifyContent: "center",
     padding: 10,
     borderRadius: 12,
+    minHeight: 50
   },
-  addBtn: {
-    marginLeft: 10,
-    backgroundColor: "#dededeff",
-    padding: 10,
-    borderRadius: 12,
-  },
-  filterBtn: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: "#333",
-    borderRadius: 10
-  },
-  itemBlock: {
+  item: {
     flexDirection: "row",
     alignItems: "center",
     minWidth: "95%",
     padding: 12,
-    backgroundColor: "#dad9d9ff",
     borderRadius: 15,
     marginVertical: 3
   },
   filterText: {
-    color: "white",
     fontSize: 16
   },
 });
 
 //深色樣式
-const dark = StyleSheet.create({});
+const dark = StyleSheet.create({
+  buttonBlock: {
+    backgroundColor: "#dededeff",
+  },
+  itemBlock: {
+    backgroundColor: "#dad9d9ff",
+  },
+  inputBlock: {
+    backgroundColor: "#dadadaff",
+    borderColor: "#7a7a7aff",
+  },
+});
 
 //淺色樣式
 const light = StyleSheet.create({});
