@@ -21,13 +21,13 @@ export default function Index() {
     setList(list.filter((item, i) => i != idex));
   }
   const tag = ({ item, index }: { item: string, index: number }) => (
-    <View style={[basic.item, basic.few, basic.row, isDark ? (dark.itemBlock) : (light.itemBlock)]}>
+    <View style={[basic.item, basic.row, isDark ? (dark.itemBlock) : (light.itemBlock)]}>
       <View style={basic.few}>
-        <Text style={basic.itemTitle}>{item}</Text>
+        <Text style={[basic.itemTitle, isDark ? (dark.itemText) : (light.itemText)]}>{item}</Text>
       </View>
       <View style={[basic.row]}>
         <TouchableOpacity>
-          <Entypo name="edit" size={30} color="black" />
+          <Entypo name="edit" size={30} style={isDark ? (dark.defaultIcon) : (light.penIcon)} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => removeItem(index)}>
           <Entypo name="circle-with-cross" size={30} color="black" />
@@ -161,6 +161,9 @@ const dark = StyleSheet.create({
   itemBlock: {
     backgroundColor: "#dad9d9ff",
   },
+  itemText: {
+    color: "#000000"
+  },
 });
 
 //淺色樣式
@@ -192,5 +195,11 @@ const light = StyleSheet.create({
   },
   itemBlock: {
     backgroundColor: "#1dffffff",
+  },
+  itemText: {
+    color: "#ff00b7ff"
+  },
+  penIcon: {
+    color: "#ce803bff"
   },
 });
