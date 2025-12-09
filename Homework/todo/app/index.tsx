@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput, Alert } from "react-native";
 import { Ionicons, Entypo, Feather } from '@expo/vector-icons';
 
 interface Item {
@@ -11,6 +11,9 @@ export default function Index() {
   const [word, setWord] = useState("");
   const [list, setList] = useState<Item[]>([]);
   const [isDark, setIsdark] = useState(true);
+  const switchDark = () => {
+    setIsdark(!isDark);
+  }
   const clearList = () => {
     setList([]);
   }
@@ -22,12 +25,18 @@ export default function Index() {
       setList([...list, { text: "某件事", done: false }]);
     }
   }
-  const removeItem = (idex: number) => {
-    setList(list.filter((item, i) => i != idex));
+  const finish = () => {
+    setList(list.filter((x) => x.done));
+  }
+  const unfinish = () => {
+    setList(list.filter((x) => !x.done));
   }
   const toggleDone = (index: number) => {
     setList(prev =>
       prev.map((it, i) => i === index ? { ...it, done: !it.done } : it))
+  }
+  const removeItem = (idex: number) => {
+    setList(list.filter((item, i) => i != idex));
   }
   const tag = ({ item, index }: { item: Item, index: number }) => (
     <View style={[basic.item, basic.row, isDark ? (dark.itemBlock) : (light.itemBlock)]}>
@@ -35,7 +44,7 @@ export default function Index() {
         {item.done ? (<Feather name="check-circle" size={30} style={isDark ? (dark.defaultIcon) : (light.checkIcon)} />) : (<Feather name="circle" size={30} style={isDark ? (dark.defaultIcon) : (light.circleIcon)} />)}
       </TouchableOpacity>
       <View style={[basic.most, basic.row]}>
-        <Text style={[basic.itemTitle, isDark ? (dark.itemText) : (light.itemText)]}>{item.text}</Text>
+        <Text style={[basic.itemTitle, (item.done ? ({ textDecorationLine: "line-through" }) : ({})), (isDark ? (dark.itemText) : (light.itemText))]}>{item.text}</Text>
       </View>
       <View style={[basic.row]}>
         <TouchableOpacity>
@@ -64,7 +73,7 @@ export default function Index() {
           onChangeText={setWord}
         />
         <View style={[basic.buttonGroup, basic.few, basic.row, basic.center]}>{/* 按鈕區 */}
-          <TouchableOpacity style={[basic.button, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]} onPress={() => setIsdark(!isDark)}>
+          <TouchableOpacity style={[basic.button, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]} onPress={switchDark}>
             <Ionicons name="sunny" size={25} style={isDark ? (dark.defaultIcon) : (light.sunIcon)} />
           </TouchableOpacity>
           <TouchableOpacity style={[basic.button, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]} onPress={clearList}>
@@ -73,10 +82,10 @@ export default function Index() {
           <TouchableOpacity style={[basic.button, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]} onPress={addItem}>
             <Entypo name="add-to-list" size={25} style={isDark ? (dark.defaultIcon) : (light.addIcon)} />
           </TouchableOpacity>
-          <TouchableOpacity style={[basic.button, basic.few, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]}>
+          <TouchableOpacity style={[basic.button, basic.few, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]} onPress={finish}>
             <Text style={[basic.filterText, isDark ? (dark.buttonText) : (light.buttonText)]}>已完成</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[basic.button, basic.few, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]}>
+          <TouchableOpacity style={[basic.button, basic.few, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]} onPress={unfinish}>
             <Text style={[basic.filterText, isDark ? (dark.buttonText) : (light.buttonText)]}>未完成</Text>
           </TouchableOpacity>
         </View>
