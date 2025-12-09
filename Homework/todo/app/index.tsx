@@ -11,6 +11,8 @@ export default function Index() {
   const [word, setWord] = useState("");
   const [list, setList] = useState<Item[]>([]);
   const [isDark, setIsdark] = useState(true);
+  const [isfinish, setIsfinish] = useState(true);
+  const [isunfinish, setIsunfinish] = useState(true);
   const switchDark = () => {
     setIsdark(!isDark);
   }
@@ -26,10 +28,10 @@ export default function Index() {
     }
   }
   const finish = () => {
-    setList(list.filter((x) => x.done));
+    setIsfinish(!isfinish);
   }
   const unfinish = () => {
-    setList(list.filter((x) => !x.done));
+    setIsunfinish(!isunfinish);
   }
   const toggleDone = (index: number) => {
     setList(prev =>
@@ -38,6 +40,23 @@ export default function Index() {
   const removeItem = (idex: number) => {
     setList(list.filter((item, i) => i != idex));
   }
+  const filteredList = list.filter(item => {
+    const isDonePressed = isfinish;
+    const isUndonePressed = isunfinish;
+    if (isDonePressed && isUndonePressed) {
+      return true;
+    }
+    else if (!isDonePressed && !isUndonePressed) {
+      return false;
+    }
+    else if (isDonePressed) {
+      return item.done;
+    }
+    else if (isUndonePressed) {
+      return !item.done;
+    }
+    return true;
+  });
   const tag = ({ item, index }: { item: Item, index: number }) => (
     <View style={[basic.item, basic.row, isDark ? (dark.itemBlock) : (light.itemBlock)]}>
       <TouchableOpacity onPress={() => toggleDone(index)}>
@@ -59,7 +78,6 @@ export default function Index() {
       </View>
     </View>
   );
-
   return (
     <View style={[basic.few, isDark ? (dark.background) : (light.background)]}>{/* 根標籤 */}
       <View style={[basic.few, basic.center]}>{/* 標題區 */}
@@ -82,16 +100,16 @@ export default function Index() {
           <TouchableOpacity style={[basic.button, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]} onPress={addItem}>
             <Entypo name="add-to-list" size={25} style={isDark ? (dark.defaultIcon) : (light.addIcon)} />
           </TouchableOpacity>
-          <TouchableOpacity style={[basic.button, basic.few, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]} onPress={finish}>
+          <TouchableOpacity style={[basic.button, basic.few, basic.row, isDark ? (isfinish ? (dark.pressFinish) : (dark.unPressFinish)) : (isfinish ? (light.pressFinish) : (light.unPressFinish))]} onPress={finish}>
             <Text style={[basic.filterText, isDark ? (dark.buttonText) : (light.buttonText)]}>已完成</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[basic.button, basic.few, basic.row, isDark ? (dark.buttonBlock) : (light.buttonBlock)]} onPress={unfinish}>
+          <TouchableOpacity style={[basic.button, basic.few, basic.row, isDark ? (isunfinish ? (dark.pressUnfinish) : (dark.unPressUnfinish)) : (isunfinish ? (light.pressUnfinish) : (light.unPressUnfinish))]} onPress={unfinish}>
             <Text style={[basic.filterText, isDark ? (dark.buttonText) : (light.buttonText)]}>未完成</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={[basic.most]}>{/* 項目區 */}
-        <FlatList data={list} keyExtractor={(item, index) => `${item} ${index}`} renderItem={tag} />
+        <FlatList data={filteredList} keyExtractor={(item, index) => `${item} ${index}`} renderItem={tag} />
       </View>
     </View>
   );
@@ -173,6 +191,22 @@ const dark = StyleSheet.create({
   buttonBlock: {
     backgroundColor: "#dededeff",
   },
+  pressFinish: {
+    backgroundColor: "#eee7e7ff",
+    borderColor: "#000000ff",
+    borderWidth: 2
+  },
+  unPressFinish: {
+    backgroundColor: "#eee7e7ff"
+  },
+  pressUnfinish: {
+    backgroundColor: "#eee7e7ff",
+    borderColor: "#000000ff",
+    borderWidth: 2
+  },
+  unPressUnfinish: {
+    backgroundColor: "#eee7e7ff"
+  },
   defaultIcon: {
     color: "#000000"
   },
@@ -197,25 +231,41 @@ const light = StyleSheet.create({
   },
   inputBlock: {
     backgroundColor: "#ffffff",
-    borderColor: "#d5d5d5ff",
+    borderColor: "#d5d5d5ff"
   },
   buttonBlock: {
-    backgroundColor: "#fbfb7aff",
+    backgroundColor: "#fbfb7aff"
+  },
+  pressFinish: {
+    backgroundColor: "#00ff00"
+  },
+  unPressFinish: {
+    backgroundColor: "#eee7e7ff",
+    borderColor: "#00ff00",
+    borderWidth: 2
+  },
+  pressUnfinish: {
+    backgroundColor: "#ff0000"
+  },
+  unPressUnfinish: {
+    backgroundColor: "#eee7e7ff",
+    borderColor: "#ff0000",
+    borderWidth: 2
   },
   sunIcon: {
     color: "#ff8800ff"
   },
   trashIcon: {
-    color: "#00ff1aff"
+    color: "#747474ff"
   },
   addIcon: {
     color: "#cc00ffff"
   },
   buttonText: {
-    color: "#ff0000ff"
+    color: "#0062ffff"
   },
   itemBlock: {
-    backgroundColor: "#1dffffff",
+    backgroundColor: "#1dffffff"
   },
   circleIcon: {
     color: "#ff0000"
