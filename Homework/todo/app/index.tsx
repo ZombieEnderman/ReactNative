@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Alert, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 interface Item {
+  id: number,
   text: string,
   done: boolean
 }
@@ -13,7 +14,7 @@ export default function Index() {
   const [isDark, setIsdark] = useState(true);
   const [isfinish, setIsfinish] = useState(true);
   const [isunfinish, setIsunfinish] = useState(true);
-  const [editingIndex, setEditingIndex] = useState(-1);
+  const [editingId, setEditingId] = useState(-1);
   const [editText, setEditText] = useState("");
   const switchDark = () => {
     setIsdark(!isDark);
@@ -23,10 +24,10 @@ export default function Index() {
   }
   const addItem = () => {
     if (word != "") {
-      setList([...list, { text: word, done: false }]);
+      setList([...list, { id: Date.now(), text: word, done: false }]);
       setWord("");
     } else {
-      setList([...list, { text: "某件事", done: false }]);
+      setList([...list, { id: Date.now(), text: "某件事", done: false }]);
     }
   }
   const finish = () => {
@@ -35,66 +36,65 @@ export default function Index() {
   const unfinish = () => {
     setIsunfinish(!isunfinish);
   }
-  const toggleDone = (index: number) => {
+  const toggleDone = (id: number) => {
     setList(item =>
-      item.map((it, i) => i === index ? { ...it, done: !it.done } : it))
+      item.map((it) => it.id === id ? { ...it, done: !it.done } : it))
   }
-  const removeItem = (idex: number) => {
-    setList(list.filter((item, i) => i != idex));
+  const removeItem = (id: number) => {
+    setList(list.filter((item) => item.id != id));
   }
-  const startEdit = (index: number, currentText: string) => {
-    if (!list[index].done) {
-      setEditingIndex(index);
+  const startEdit = (id: number, currentText: string) => {
+    const itemToEdit = list.find(item => item.id === id);
+    if (itemToEdit && !itemToEdit.done) {
+      setEditingId(id);
       setEditText(currentText);
     } else {
       Alert.alert("命運已定", "事已至此，忘了它吧！", [{ text: "接受命運" }]);
     }
   }
   const cancelEdit = () => {
-    setEditingIndex(-1);
+    setEditingId(-1);
     setEditText("");
   }
-  const confirmEdit = (index: number) => {
+  const confirmEdit = (id: number) => {
     if (editText.trim() !== "") {
-      setList(item => item.map((it, i) => i === index ? { ...it, text: editText.trim() } : it));
+      setList(item => item.map((it) => it.id === id ? { ...it, text: editText.trim() } : it));
       cancelEdit();
     } else {
-      setList(item => item.map((it, i) => i === index ? { ...it, text: "待修改" } : it));
+      setList(item => item.map((it) => it.id === id ? { ...it, text: "待修改" } : it));
       cancelEdit();
     }
   }
   const filteredList = list.filter(item => {
-    const isDonePressed = isfinish;
-    const isUndonePressed = isunfinish;
-    if (isDonePressed && isUndonePressed) {
+    if (isfinish && isunfinish) {
       return true;
     }
-    else if (!isDonePressed && !isUndonePressed) {
+    else if (!isfinish && !isunfinish) {
       return false;
     }
-    else if (isDonePressed) {
+    else if (isfinish) {
       return item.done;
     }
-    else if (isUndonePressed) {
+    else if (isunfinish) {
       return !item.done;
     }
     return true;
   });
   const tag = ({ item, index }: { item: Item, index: number }) => {
-    const isEditing = index === editingIndex;
+    const isEditing = item.id === editingId;
     return (
       <View style={[basic.item, basic.row, isDark ? (dark.itemBlock) : (light.itemBlock)]}>
-        <TouchableOpacity onPress={() => toggleDone(index)}>
+        <TouchableOpacity onPress={() => toggleDone(item.id)}>{/* 項目勾選紐 */}
           {item.done ? (<Feather name="check-circle" size={30} style={isDark ? (dark.defaultIcon) : (light.checkIcon)} />) : (<Feather name="circle" size={30} style={isDark ? (dark.defaultIcon) : (light.circleIcon)} />)}
         </TouchableOpacity>
-        <View style={[basic.most, basic.row]}>
+        <View style={[basic.most, basic.row]}>{/* 項目文字 */}
           {isEditing ? (
             <TextInput
               style={[basic.itemTitle, basic.editInput, isDark ? (dark.itemText) : (light.itemText)]}
               value={editText}
               onChangeText={setEditText}
               autoFocus={true}
-              onSubmitEditing={() => confirmEdit(index)}
+              onSubmitEditing={() => confirmEdit(item.id)}
             />
           ) : (
             <Text style={[basic.itemTitle, (item.done ? ({ textDecorationLine: "line-through" }) : ({})), (isDark ? (dark.itemText) : (light.itemText))]}>
@@ -102,22 +102,22 @@ export default function Index() {
             </Text>
           )}
         </View>
-        <View style={[basic.row, basic.space]}>
+        <View style={[basic.row, basic.space]}>{/* 項目圖示區 */}
           {isEditing ? (
             <TouchableOpacity onPress={cancelEdit}>
               <Entypo name="cross" size={30} style={isDark ? (dark.defaultIcon) : (light.crossIcon)} />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={() => startEdit(index, item.text)}>
+            <TouchableOpacity onPress={() => startEdit(item.id, item.text)}>
               <Entypo name="edit" size={30} style={isDark ? (dark.defaultIcon) : (light.penIcon)} />
             </TouchableOpacity>
           )}
           {isEditing ? (
-            <TouchableOpacity onPress={() => confirmEdit(index)}>
+            <TouchableOpacity onPress={() => confirmEdit(item.id)}>
               <Feather name="check" size={30} style={isDark ? (dark.defaultIcon) : (light.checkIcon)} />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={() => removeItem(index)}>
+            <TouchableOpacity onPress={() => removeItem(item.id)}>
               <Entypo name="circle-with-cross" size={30} style={isDark ? (dark.defaultIcon) : (light.crossIcon)} />
             </TouchableOpacity>
           )}
@@ -156,7 +156,7 @@ export default function Index() {
         </View>
       </View>
       <View style={[basic.most]}>{/* 項目區 */}
-        <FlatList data={filteredList} keyExtractor={(item, index) => `${item} ${index}`} renderItem={tag} />
+        <FlatList data={filteredList} keyExtractor={(item) => item.id.toString()} renderItem={tag} />
       </View>
     </View>
   );
