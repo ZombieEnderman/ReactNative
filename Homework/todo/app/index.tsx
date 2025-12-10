@@ -1,6 +1,6 @@
+import { Entypo, Feather, Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput, Alert } from "react-native";
-import { Ionicons, Entypo, Feather } from '@expo/vector-icons';
+import { Alert, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 interface Item {
   text: string,
@@ -125,7 +125,6 @@ export default function Index() {
       </View>
     );
   };
-
   return (
     <View style={[basic.few, isDark ? (dark.background) : (light.background)]}>{/* 根標籤 */}
       <View style={[basic.few, basic.center]}>{/* 標題區 */}
@@ -226,7 +225,7 @@ const basic = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 0,
     borderBottomWidth: 1,
-    borderBottomColor: "#999"
+    borderBottomColor: "#674636"
   },
   space: {
     gap: 7
@@ -236,107 +235,107 @@ const basic = StyleSheet.create({
 //深色樣式
 const dark = StyleSheet.create({
   background: {
-    backgroundColor: "#676565ff"
+    backgroundColor: "#000000ff"
   },
   titleColor: {
-    color: "#000000"
+    color: "#b5caa1"
   },
   inputBlock: {
-    backgroundColor: "#dadadaff",
-    borderColor: "#000000ff",
+    backgroundColor: "#263926",
+    borderColor: "#b5caa1",
   },
   buttonBlock: {
-    backgroundColor: "#dededeff",
+    backgroundColor: "#dae9d2",
   },
   pressFinish: {
-    backgroundColor: "#eee7e7ff",
-    borderColor: "#000000ff",
+    backgroundColor: "#dae9d2",
+    borderColor: "#b5caa1",
     borderWidth: 2
   },
   unPressFinish: {
-    backgroundColor: "#eee7e7ff"
+    backgroundColor: "#6a8e74"
   },
   pressUnfinish: {
-    backgroundColor: "#eee7e7ff",
-    borderColor: "#000000ff",
+    backgroundColor: "#dae9d2",
+    borderColor: "#b5caa1",
     borderWidth: 2
   },
   unPressUnfinish: {
-    backgroundColor: "#eee7e7ff"
+    backgroundColor: "#6a8e74"
   },
   defaultIcon: {
-    color: "#000000"
+    color: "#263926"
   },
   buttonText: {
-    color: "#000"
+    color: "#263926"
   },
   itemBlock: {
-    backgroundColor: "#dad9d9ff",
+    backgroundColor: "#6a8e74",
   },
   itemText: {
-    color: "#000000"
+    color: "#263926"
   },
 });
 
 //淺色樣式
 const light = StyleSheet.create({
   background: {
-    backgroundColor: "#ffffffff"
+    backgroundColor: "#f9edd7"
   },
   titleColor: {
-    color: "#2600ffff"
+    color: "#614a44"
   },
   inputBlock: {
-    backgroundColor: "#ffffff",
-    borderColor: "#d5d5d5ff"
+    backgroundColor: "#a9c9c4",
+    borderColor: "#614a44"
   },
   buttonBlock: {
-    backgroundColor: "#fbfb7aff"
+    backgroundColor: "#614a44"
   },
   pressFinish: {
-    backgroundColor: "#00ff00"
+    backgroundColor: "#614a44"
   },
   unPressFinish: {
-    backgroundColor: "#eee7e7ff",
-    borderColor: "#00ff00",
+    backgroundColor: "#f9edd7",
+    borderColor: "#614a44",
     borderWidth: 2
   },
   pressUnfinish: {
-    backgroundColor: "#ff0000"
+    backgroundColor: "#614a44"
   },
   unPressUnfinish: {
-    backgroundColor: "#eee7e7ff",
-    borderColor: "#ff0000",
+    backgroundColor: "#f9edd7",
+    borderColor: "#614a44",
     borderWidth: 2
   },
   sunIcon: {
-    color: "#ff8800ff"
+    color: "#f9edd7"
   },
   trashIcon: {
-    color: "#747474ff"
+    color: "#a9c9c4"
   },
   addIcon: {
-    color: "#cc00ffff"
+    color: "#f9edd7"
   },
   buttonText: {
-    color: "#0062ffff"
+    color: "#a9c9c4"
   },
   itemBlock: {
-    backgroundColor: "#1dffffff"
+    backgroundColor: "#a9c9c4"
   },
   circleIcon: {
-    color: "#ff0000"
+    color: "#614a44"
   },
   checkIcon: {
-    color: "#00aa00"
+    color: "#614a44"
   },
   itemText: {
-    color: "#ff00b7ff"
+    color: "#614a44"
   },
   penIcon: {
-    color: "#ce803bff"
+    color: "#614a44"
   },
   crossIcon: {
-    color: "#ff0000"
+    color: "#614a44"
   },
 });
