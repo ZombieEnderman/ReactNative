@@ -13,6 +13,8 @@ export default function Index() {
   const [isDark, setIsdark] = useState(true);
   const [isfinish, setIsfinish] = useState(true);
   const [isunfinish, setIsunfinish] = useState(true);
+  const [editingIndex, setEditingIndex] = useState(-1);
+  const [editText, setEditText] = useState("");
   const switchDark = () => {
     setIsdark(!isDark);
   }
@@ -34,11 +36,32 @@ export default function Index() {
     setIsunfinish(!isunfinish);
   }
   const toggleDone = (index: number) => {
-    setList(prev =>
-      prev.map((it, i) => i === index ? { ...it, done: !it.done } : it))
+    setList(item =>
+      item.map((it, i) => i === index ? { ...it, done: !it.done } : it))
   }
   const removeItem = (idex: number) => {
     setList(list.filter((item, i) => i != idex));
+  }
+  const startEdit = (index: number, currentText: string) => {
+    if (!list[index].done) {
+      setEditingIndex(index);
+      setEditText(currentText);
+    } else {
+      Alert.alert("命運已定", "事已至此，忘了它吧！", [{ text: "接受命運" }]);
+    }
+  }
+  const cancelEdit = () => {
+    setEditingIndex(-1);
+    setEditText("");
+  }
+  const confirmEdit = (index: number) => {
+    if (editText.trim() !== "") {
+      setList(item => item.map((it, i) => i === index ? { ...it, text: editText.trim() } : it));
+      cancelEdit();
+    } else {
+      setList(item => item.map((it, i) => i === index ? { ...it, text: "待修改" } : it));
+      cancelEdit();
+    }
   }
   const filteredList = list.filter(item => {
     const isDonePressed = isfinish;
@@ -57,27 +80,52 @@ export default function Index() {
     }
     return true;
   });
-  const tag = ({ item, index }: { item: Item, index: number }) => (
-    <View style={[basic.item, basic.row, isDark ? (dark.itemBlock) : (light.itemBlock)]}>
-      <TouchableOpacity onPress={() => toggleDone(index)}>
-        {item.done ? (<Feather name="check-circle" size={30} style={isDark ? (dark.defaultIcon) : (light.checkIcon)} />) : (<Feather name="circle" size={30} style={isDark ? (dark.defaultIcon) : (light.circleIcon)} />)}
-      </TouchableOpacity>
-      <View style={[basic.most, basic.row]}>
-        <Text style={[basic.itemTitle, (item.done ? ({ textDecorationLine: "line-through" }) : ({})), (isDark ? (dark.itemText) : (light.itemText))]}>{item.text}</Text>
+  const tag = ({ item, index }: { item: Item, index: number }) => {
+    const isEditing = index === editingIndex;
+    return (
+      <View style={[basic.item, basic.row, isDark ? (dark.itemBlock) : (light.itemBlock)]}>
+        <TouchableOpacity onPress={() => toggleDone(index)}>
+          {item.done ? (<Feather name="check-circle" size={30} style={isDark ? (dark.defaultIcon) : (light.checkIcon)} />) : (<Feather name="circle" size={30} style={isDark ? (dark.defaultIcon) : (light.circleIcon)} />)}
+        </TouchableOpacity>
+        <View style={[basic.most, basic.row]}>
+          {isEditing ? (
+            <TextInput
+              style={[basic.itemTitle, basic.editInput, isDark ? (dark.itemText) : (light.itemText)]}
+              value={editText}
+              onChangeText={setEditText}
+              autoFocus={true}
+              onSubmitEditing={() => confirmEdit(index)}
+            />
+          ) : (
+            <Text style={[basic.itemTitle, (item.done ? ({ textDecorationLine: "line-through" }) : ({})), (isDark ? (dark.itemText) : (light.itemText))]}>
+              {item.text}
+            </Text>
+          )}
+        </View>
+        <View style={[basic.row, basic.space]}>
+          {isEditing ? (
+            <TouchableOpacity onPress={cancelEdit}>
+              <Entypo name="cross" size={30} style={isDark ? (dark.defaultIcon) : (light.crossIcon)} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => startEdit(index, item.text)}>
+              <Entypo name="edit" size={30} style={isDark ? (dark.defaultIcon) : (light.penIcon)} />
+            </TouchableOpacity>
+          )}
+          {isEditing ? (
+            <TouchableOpacity onPress={() => confirmEdit(index)}>
+              <Feather name="check" size={30} style={isDark ? (dark.defaultIcon) : (light.checkIcon)} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => removeItem(index)}>
+              <Entypo name="circle-with-cross" size={30} style={isDark ? (dark.defaultIcon) : (light.crossIcon)} />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
-      <View style={[basic.row]}>
-        <TouchableOpacity>
-          <Entypo name="edit" size={30} style={isDark ? (dark.defaultIcon) : (light.penIcon)} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => removeItem(index)}>
-          <Entypo name="circle-with-cross" size={30} style={isDark ? (dark.defaultIcon) : (light.crossIcon)} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="information-circle" size={30} style={isDark ? (dark.defaultIcon) : (light.informationIcon)} />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+    );
+  };
+
   return (
     <View style={[basic.few, isDark ? (dark.background) : (light.background)]}>{/* 根標籤 */}
       <View style={[basic.few, basic.center]}>{/* 標題區 */}
@@ -174,6 +222,15 @@ const basic = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 10,
   },
+  editInput: {
+    flex: 1,
+    paddingHorizontal: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: "#999"
+  },
+  space: {
+    gap: 7
+  }
 });
 
 //深色樣式
@@ -281,8 +338,5 @@ const light = StyleSheet.create({
   },
   crossIcon: {
     color: "#ff0000"
-  },
-  informationIcon: {
-    color: "#0000ff"
   },
 });
