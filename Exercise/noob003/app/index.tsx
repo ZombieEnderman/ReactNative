@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from "react-native";
 import { AntDesign, FontAwesome6, FontAwesome5 } from '@expo/vector-icons';
 
 export default function Index() {
   const [list, setList] = useState<string[]>([]);
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    setTotal(list.length);
+  }, [list]);
   const addItem = () => {
     let time = new Date();
     setList([...list, time.toLocaleString("zh-TW", { "hour12": false })]);
@@ -14,7 +18,7 @@ export default function Index() {
   const removeItem = (index: number) => {
     setList(list.filter((item, i) => i !== index));
   };
-  const render = ({ item, index }) => {
+  const render = ({ item, index }: { item: string, index: number }) => {
     return (
       <TouchableOpacity style={styles.litxt} onPress={() => removeItem(index)}>
         <View style={{ flexDirection: "row", flex: 1, alignItems: "center", }}>
@@ -38,6 +42,9 @@ export default function Index() {
         </TouchableOpacity>
       </View>
       <View style={styles.list}>
+        <View style={styles.center}>
+          <Text style={styles.word}>{total}</Text>
+        </View>
         <FlatList
           data={list}
           keyExtractor={(item, index) => `${item} - ${index}`}
@@ -77,6 +84,10 @@ const styles = StyleSheet.create({
   },
   word: {
     fontSize: 17,
+  },
+  center: {
+    justifyContent: "center",
+    alignItems: "center"
   },
   list: {
     flex: 7,
