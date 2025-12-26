@@ -1,23 +1,11 @@
-import { useState } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useState, useEffect } from 'react';
+import { Text, View, TouchableOpacity, StyleSheet, Linking } from "react-native";
 
 export default function Index() {
-  const [word, setWord] = useState(false);
-  const change = () => {
-    const newword = !word;
-    setWord(newword);
-    const title = newword ? ("燈亮了") : ("燈滅了");
-    const message = newword ? ("誰說你可以按的!") : ("就叫你別按了!");
-    Alert.alert(title, message, [{ text: "好喔", style: "cancel" }, { text: "不要阿", style: "destructive", onPress: change }]);
-  }
   return (
-    <View style={[styles.center, styles.some]}>
-      <View style={[styles.center, styles.most]}>
-        <MaterialCommunityIcons name="lightbulb" size={100} color={word ? ("#0f0") : ("#f00")} />
-      </View>
-      <TouchableOpacity style={styles.some} onPress={change}>
-        <Text style={styles.big}>別亂按!</Text>
+    <View style={[styles.center, styles.one, styles.sp]}>
+      <TouchableOpacity style={styles.center} onPress={() => Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1')}>
+        <Text style={styles.big}>跳舞</Text>
       </TouchableOpacity>
     </View>
   );
@@ -28,14 +16,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  some: {
+  one: {
     flex: 1
   },
-  most: {
+  two: {
     flex: 2
   },
   big: {
     fontSize: 30,
     fontWeight: '700'
   },
+  sp: {
+    gap: 20
+  }
 });
