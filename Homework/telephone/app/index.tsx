@@ -52,18 +52,27 @@ export default function Index() {
   const displayRule = () => Alert.alert(
     "搜尋規則說明",
     `
-      直接輸入：包含關鍵字的單位
-      -：不含關鍵字的單位
-      +：完全符合關鍵字的單位
-      $：以關鍵字結尾的單位
-      ^：以關鍵字開頭的單位
+    直接輸入：包含關鍵字的單位
+    開頭加-：不含關鍵字的單位
+    開頭加+：完全符合關鍵字的單位
+    開頭加$：以關鍵字結尾的單位
+    開頭加^：以關鍵字開頭的單位
+    \n#不可混用!
     `
   );
+  const callNumber = (item: Item) => {
+    if (item.專線 !== "*") Linking.openURL(`tel:06${item.專線}`);
+  }
   const render = ({ item }: { item: Item }) => {
     return (
       <View style={[styles.itemBox]}>
         <Text style={styles.itemTitle}>{item.單位}</Text>
-        {(item.專線 !== "*") ? (<Text style={styles.itemText}>專線：{item.專線}</Text>) : null}
+        {(item.專線 !== "*") ? (
+          <View style={[styles.row, styles.center]}>
+            <Text style={styles.itemText}>專線：</Text>
+            <TouchableOpacity onPress={() => callNumber(item)}><Text style={styles.itemNumber}>{item.專線}</Text></TouchableOpacity>
+          </View>
+        ) : null}
         {(item.分機 !== "*") ? (<Text style={styles.itemText}>分機：{item.分機}</Text>) : null}
       </View>
     )
@@ -74,7 +83,7 @@ export default function Index() {
         <View style={[styles.center, styles.titleBox]}>
           <Text style={styles.title}>台南應用科技大學</Text>
         </View>
-        <View style={[styles.funcBox, styles.center]}>
+        <View style={[styles.row, styles.center]}>
           <TextInput style={[styles.inputBox, styles.some]} placeholder="請輸入名稱" value={keyword} onChangeText={setKeyword} />
           <TouchableOpacity onPress={displayRule}>
             <FontAwesome name="question-circle" size={35} style={styles.question} />
@@ -93,27 +102,27 @@ const styles = StyleSheet.create({
     flex: 1
   },
   center: {
-    alignItems: "center",
+    alignItems: "center"
   },
   main: {
-    gap: 15,
+    gap: 15
   },
   titleBox: {
-    padding: 10,
+    padding: 10
   },
   title: {
     fontSize: 30,
     fontWeight: "800",
-    color: "#000000",
+    color: "#000000"
   },
-  funcBox: {
-    flexDirection: "row",
+  row: {
+    flexDirection: "row"
   },
   inputBox: {
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#000000",
-    marginLeft: 10,
+    marginLeft: 10
   },
   question: {
     padding: 10,
@@ -126,15 +135,21 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 5,
     minHeight: 70,
-    padding: 10,
+    padding: 10
   },
   itemTitle: {
     fontSize: 20,
     color: "#000000",
-    fontWeight: "600",
+    fontWeight: "600"
   },
   itemText: {
     color: "#6e6e6eff",
-    fontSize: 16,
+    fontSize: 16
   },
+  itemNumber: {
+    color: "#0099ffff",
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderColor: "#0099ffff"
+  }
 });
