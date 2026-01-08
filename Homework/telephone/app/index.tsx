@@ -52,11 +52,16 @@ export default function Index() {
   const displayRule = () => Alert.alert(
     "搜尋規則說明",
     `
-    直接輸入：包含關鍵字的單位
-    開頭加-：不含關鍵字的單位
-    開頭加+：完全符合關鍵字的單位
-    開頭加$：以關鍵字結尾的單位
-    開頭加^：以關鍵字開頭的單位
+    直接輸入：
+    \t\t包含關鍵字的單位
+    開頭加-：
+    \t\t不含關鍵字的單位
+    開頭加+：
+    \t\t完全符合關鍵字的單位
+    開頭加$：
+    \t\t以關鍵字結尾的單位
+    開頭加^：
+    \t\t以關鍵字開頭的單位
     \n#不可混用!
     `
   );
@@ -84,7 +89,7 @@ export default function Index() {
           <Text style={styles.title}>台南應用科技大學</Text>
         </View>
         <View style={[styles.row, styles.center]}>
-          <TextInput style={[styles.inputBox, styles.some]} placeholder="請輸入名稱" value={keyword} onChangeText={setKeyword} />
+          <TextInput style={[styles.inputBox, styles.some]} placeholder="請輸入單位名稱" value={keyword} onChangeText={setKeyword} />
           <TouchableOpacity onPress={displayRule}>
             <FontAwesome name="question-circle" size={35} style={styles.question} />
           </TouchableOpacity>
@@ -123,7 +128,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#60587E",
-    marginLeft: 10
+    marginLeft: 10,
+    minHeight: 40
   },
   question: {
     padding: 10,
