@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   main: {
-    gap: 15
+    gap: 15,
+    backgroundColor: "#F3F1FF"
   },
   titleBox: {
     padding: 10
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "800",
-    color: "#000000"
+    color: "#726896ff"
   },
   row: {
     flexDirection: "row"
@@ -121,15 +122,15 @@ const styles = StyleSheet.create({
   inputBox: {
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: "#000000",
+    borderColor: "#60587E",
     marginLeft: 10
   },
   question: {
     padding: 10,
-    color: "#0011ffff"
+    color: "#60587E"
   },
   itemBox: {
-    borderColor: "#949494ff",
+    borderColor: "#C3B4B4",
     borderWidth: 1,
     borderRadius: 7,
     marginVertical: 5,
@@ -139,17 +140,17 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 20,
-    color: "#000000",
+    color: "#5D5164",
     fontWeight: "600"
   },
   itemText: {
-    color: "#6e6e6eff",
+    color: "#7870b2ff",
     fontSize: 16
   },
   itemNumber: {
-    color: "#0099ffff",
+    color: "#b7a4d6ff",
     fontSize: 16,
     borderBottomWidth: 1,
-    borderColor: "#0099ffff"
+    borderColor: "#bdaed6ff"
   }
 });
