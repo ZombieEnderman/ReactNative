@@ -66,7 +66,8 @@ export default function Index() {
     `
   );
   const callNumber = (item: Item) => {
-    if (item.專線 !== "*") Linking.openURL(`tel:06${item.專線}`);
+    const finalNum = item.專線?.startsWith("0") ? item : `06${item.專線}`;
+    Linking.openURL(`tel:${finalNum}`);
   }
   const render = ({ item }: { item: Item }) => {
     return (
@@ -78,7 +79,12 @@ export default function Index() {
             <TouchableOpacity onPress={() => callNumber(item)}><Text style={styles.itemNumber}>{item.專線}</Text></TouchableOpacity>
           </View>
         ) : null}
-        {(item.分機 !== "*") ? (<Text style={styles.itemText}>分機：{item.分機}</Text>) : null}
+        {(item.分機 !== "*") ? (
+          <View>
+            <Text style={styles.itemText}>分機：{item.分機}</Text>
+            <TouchableOpacity onPress={() => callNumber(item)}><Text style={styles.itemNumber}>{item.專線}#{item.分機}</Text></TouchableOpacity>
+          </View>
+        ) : null}
       </View>
     )
   }
@@ -96,7 +102,7 @@ export default function Index() {
         </View>
       </View>
       <View style={[styles.some]}>
-        <FlatList data={filteredList} keyExtractor={(item, index) => index.toString()} renderItem={render} />
+        <FlatList data={filteredList} keyExtractor={(item, index) => item.單位} renderItem={render} />
       </View>
     </View>
   );
