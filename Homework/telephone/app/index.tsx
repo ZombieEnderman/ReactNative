@@ -11,9 +11,8 @@ export default function Index() {
   const filteredList = originList.filter(item => {
     if (!keyword) return true;
     const target = item.單位 || "";
-    const operator = keyword[0];
-    const restOfKeyword = keyword.slice(1).replace(/\s+/g, "");
-    const cleanKeyword = keyword.replace(/\s+/g, "");
+    const operator = keyword.match(/[-+$^]/) ? (keyword[0]) : null;  //擷取開頭符號
+    const restOfKeyword = operator ? (keyword.slice(1).replace(/\s+/g, "")) : keyword;
     switch (operator) {
       case "-":
         return restOfKeyword ? (!target.includes(restOfKeyword)) : true;
@@ -24,7 +23,7 @@ export default function Index() {
       case "^":
         return target.startsWith(restOfKeyword);
       default:
-        return Array.from(cleanKeyword).every(char => target.includes(char));
+        return new RegExp(Array.from(restOfKeyword).join(".*")).test(target);
     }
   });
   const save = async () => {
@@ -65,9 +64,8 @@ export default function Index() {
     \n#不可混用!
     `
   );
-  const callNumber = (item: Item) => {
-    const finalNum = item.專線?.startsWith("0") ? item : `06${item.專線}`;
-    Linking.openURL(`tel:${finalNum}`);
+  const callNumber = (phone: string) => {
+    Linking.openURL(`tel:${phone}`);
   }
   const render = ({ item }: { item: Item }) => {
     return (
@@ -76,13 +74,13 @@ export default function Index() {
         {(item.專線 !== "*") ? (
           <View style={[styles.row, styles.center]}>
             <Text style={styles.itemText}>專線：</Text>
-            <TouchableOpacity onPress={() => callNumber(item)}><Text style={styles.itemNumber}>{item.專線}</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => callNumber(`${item.專線?.startsWith("0") ? item.專線 : `06${item.專線}`}`)}><Text style={styles.itemNumber}>{item.專線}</Text></TouchableOpacity>
           </View>
         ) : null}
         {(item.分機 !== "*") ? (
-          <View>
-            <Text style={styles.itemText}>分機：{item.分機}</Text>
-            <TouchableOpacity onPress={() => callNumber(item)}><Text style={styles.itemNumber}>{item.專線}#{item.分機}</Text></TouchableOpacity>
+          <View style={[styles.row, styles.center]}>
+            <Text style={styles.itemText}>分機：</Text>
+            <TouchableOpacity onPress={() => callNumber(`06${item.專線},${item.分機?.split(/[^0-9]/)[0]}`)}><Text style={styles.itemNumber}>{item.分機}</Text></TouchableOpacity>
           </View>
         ) : null}
       </View>
